@@ -31,17 +31,14 @@ const backTo = computed(() => ({
 const windowItems = computed(() => {
   const idx = recentArtworks.value.findIndex((a) => a.slug === displaySlug.value)
   if (idx < 0) return []
-  const mainUrl = data.value?.image?.url
-  const mainTitle = data.value?.title
   return [-1, 0, 1].flatMap((position) => {
     const item = recentArtworks.value[idx + position]
     if (!item) return []
-    const isMain = position === 0 && mainUrl
     return [{
       slug: item.slug,
       position,
-      src: isMain ? mainUrl : item.image?.url,
-      alt: (isMain ? mainTitle : item.title) ?? '',
+      src: item.image?.large,
+      alt: item.title ?? '',
     }]
   })
 })
