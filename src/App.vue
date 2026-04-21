@@ -1,7 +1,7 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <HelloWorld />
+  <main>
+    <h1>Artsy Browser</h1>
+  </main>
 </template>
