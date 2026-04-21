@@ -74,9 +74,15 @@ const metadata = computed(() => {
     <StateMessage v-else-if="!data">Artwork not found.</StateMessage>
     <div v-else class="space-y-6">
       <Transition :name="textName" mode="out-in">
-        <div :key="`hdr-${displaySlug}`" class="mx-auto flex min-h-16 max-w-2xl items-baseline gap-3">
+        <div :key="`hdr-${displaySlug}`" class="mx-auto flex min-h-16 max-w-2xl items-baseline justify-between gap-6">
           <h2 class="text-2xl font-semibold text-gray-900">{{ data.title || 'Untitled' }}</h2>
-          <p class="lowercase text-gray-600">{{ data.artistNames }}</p>
+          <RouterLink
+            v-if="data.artistNames"
+            :to="{ name: 'browse', query: { q: data.artistNames } }"
+            class="lowercase text-gray-600 hover:underline"
+          >
+            {{ data.artistNames }}
+          </RouterLink>
         </div>
       </Transition>
 
