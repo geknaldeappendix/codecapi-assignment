@@ -2,6 +2,7 @@
 import { toRef } from 'vue'
 import { useRouter } from 'vue-router'
 import { useArtwork } from '../composables/useArtwork'
+import StateMessage from '../components/StateMessage.vue'
 
 const props = defineProps<{ slug: string }>()
 const { data, loading, error } = useArtwork(toRef(props, 'slug'))
@@ -17,9 +18,9 @@ const router = useRouter()
     >
       <- Back to browse
     </button>
-    <p v-if="loading" class="text-gray-500">Loading…</p>
-    <p v-else-if="error" class="text-red-600">Something went wrong.</p>
-    <p v-else-if="!data" class="text-gray-500">Artwork not found.</p>
+    <StateMessage v-if="loading">Loading…</StateMessage>
+    <StateMessage v-else-if="error" variant="error">Something went wrong.</StateMessage>
+    <StateMessage v-else-if="!data">Artwork not found.</StateMessage>
     <article v-else class="mx-auto max-w-2xl space-y-6">
       <div class="flex items-baseline gap-3">
         <h2 class="text-2xl font-semibold text-gray-900">{{ data.title || 'Untitled' }}</h2>

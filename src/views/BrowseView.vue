@@ -4,6 +4,7 @@ import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useArtworks, type Artwork } from '../composables/useArtworks'
 import SearchBar from '../components/SearchBar.vue'
 import HoverPreview from '../components/HoverPreview.vue'
+import StateMessage from '../components/StateMessage.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -36,9 +37,9 @@ function leave() {
 <template>
   <section class="space-y-4">
     <SearchBar :initial-value="initialQuery" @update:query="query = $event" />
-    <p v-if="loading" class="text-gray-500">Loading…</p>
-    <p v-else-if="error" class="text-red-600">Something went wrong.</p>
-    <p v-else-if="!data.length" class="text-gray-500">No artworks found.</p>
+    <StateMessage v-if="loading">Loading…</StateMessage>
+    <StateMessage v-else-if="error" variant="error">Something went wrong.</StateMessage>
+    <StateMessage v-else-if="!data.length">No artworks found.</StateMessage>
     <ul v-else class="space-y-2">
       <li v-for="artwork in data" :key="artwork.internalID">
         <RouterLink
