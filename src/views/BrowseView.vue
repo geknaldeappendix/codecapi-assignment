@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
-import { useArtworks } from '../composables/useArtworks'
+import { useArtworks, type Artwork } from '../composables/useArtworks'
 import SearchBar from '../components/SearchBar.vue'
+import HoverPreview from '../components/HoverPreview.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,6 +15,22 @@ const { data, loading, error } = useArtworks(query)
 watch(query, (value) => {
   router.replace({ query: value ? { q: value } : {} })
 })
+
+const hovered = ref<Artwork | null>(null)
+const anchor = ref({ x: 0, y: 0 })
+const cursor = ref({ x: 0, y: 0 })
+
+function enter(artwork: Artwork, event: MouseEvent) {
+  hovered.value = artwork
+  anchor.value = { x: event.clientX, y: event.clientY }
+  cursor.value = { x: event.clientX, y: event.clientY }
+}
+function move(event: MouseEvent) {
+  cursor.value = { x: event.clientX, y: event.clientY }
+}
+function leave() {
+  hovered.value = null
+}
 </script>
 
 <template>
@@ -27,10 +44,21 @@ watch(query, (value) => {
         <RouterLink
           :to="{ name: 'artwork', params: { slug: artwork.slug } }"
           class="hover:underline"
+          @mouseenter="enter(artwork, $event)"
+          @mousemove="move"
+          @mouseleave="leave"
         >
           {{ artwork.title || 'Untitled' }} — {{ artwork.artistNames }}
         </RouterLink>
       </li>
     </ul>
+    <HoverPreview
+      v-if="hovered?.image?.url"
+      :url="hovered.image.url"
+      :anchor-x="anchor.x"
+      :anchor-y="anchor.y"
+      :cursor-x="cursor.x"
+      :cursor-y="cursor.y"
+    />
   </section>
 </template>

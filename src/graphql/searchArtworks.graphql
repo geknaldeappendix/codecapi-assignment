@@ -9,7 +9,7 @@ query SearchArtworks($query: String!, $first: Int!) {
           slug
           artistNames
           image {
-            url(version: "small")
+            url(version: "square")
           }
         }
       }

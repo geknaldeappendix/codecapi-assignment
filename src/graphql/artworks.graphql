@@ -7,7 +7,7 @@ query Artworks($first: Int!) {
         slug
         artistNames
         image {
-          url(version: "small")
+          url(version: "square")
         }
       }
     }
