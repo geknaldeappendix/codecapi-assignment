@@ -65,6 +65,51 @@ const partners = computed(() =>
     edge?.node ? [edge.node] : [],
   ),
 )
+
+const LENS = 200
+const ZOOM = 2.5
+
+const lens = ref({
+  show: false,
+  x: 0,
+  y: 0,
+  bgX: 0,
+  bgY: 0,
+  bgW: 0,
+  bgH: 0,
+  src: '',
+})
+
+function lensMove(event: MouseEvent) {
+  const img = event.currentTarget as HTMLImageElement
+  const rect = img.getBoundingClientRect()
+  if (!img.naturalWidth || !img.naturalHeight) return
+  const ratio = Math.min(rect.width / img.naturalWidth, rect.height / img.naturalHeight)
+  const renderedW = img.naturalWidth * ratio
+  const renderedH = img.naturalHeight * ratio
+  const offsetX = (rect.width - renderedW) / 2
+  const offsetY = (rect.height - renderedH) / 2
+  const px = event.clientX - rect.left - offsetX
+  const py = event.clientY - rect.top - offsetY
+  if (px < 0 || py < 0 || px > renderedW || py > renderedH) {
+    lens.value = { ...lens.value, show: false }
+    return
+  }
+  lens.value = {
+    show: true,
+    x: event.clientX - LENS / 2,
+    y: event.clientY - LENS / 2,
+    bgX: LENS / 2 - px * ZOOM,
+    bgY: LENS / 2 - py * ZOOM,
+    bgW: renderedW * ZOOM,
+    bgH: renderedH * ZOOM,
+    src: img.currentSrc || img.src,
+  }
+}
+
+function lensLeave() {
+  lens.value = { ...lens.value, show: false }
+}
 </script>
 
 <template>
@@ -102,6 +147,9 @@ const partners = computed(() =>
               :src="w.src"
               :alt="w.alt"
               class="h-full w-full object-contain shadow-lg"
+              :class="{ 'cursor-none': w.position === 0 }"
+              @mousemove="w.position === 0 && lensMove($event)"
+              @mouseleave="w.position === 0 && lensLeave()"
             />
             <span
               class="absolute top-full right-0 mt-2 text-xs text-gray-600 transition-opacity duration-500 group-hover:underline"
@@ -118,6 +166,20 @@ const partners = computed(() =>
           </RouterLink>
         </TransitionGroup>
       </div>
+      <div
+        v-show="lens.show"
+        class="pointer-events-none fixed z-50 rounded-full border-2 border-white bg-white shadow-xl"
+        :style="{
+          left: `${lens.x}px`,
+          top: `${lens.y}px`,
+          width: `${LENS}px`,
+          height: `${LENS}px`,
+          backgroundImage: `url(${lens.src})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: `${lens.bgW}px ${lens.bgH}px`,
+          backgroundPosition: `${lens.bgX}px ${lens.bgY}px`,
+        }"
+      />
 
       <Transition :name="textName" mode="out-in">
         <div :key="`meta-${displaySlug}`" class="space-y-6">
