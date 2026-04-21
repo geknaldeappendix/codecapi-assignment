@@ -59,6 +59,12 @@ const metadata = computed(() => {
     { label: 'Status', value: d.saleMessage },
   ].filter((row) => row.value)
 })
+
+const partners = computed(() =>
+  (data.value?.artist?.highlights?.partnersConnection?.edges ?? []).flatMap((edge) =>
+    edge?.node ? [edge.node] : [],
+  ),
+)
 </script>
 
 <template>
@@ -127,6 +133,29 @@ const metadata = computed(() => {
           >
             {{ data.description }}
           </p>
+          <section v-if="partners.length" class="mx-auto max-w-2xl space-y-3">
+            <h3 class="text-sm font-semibold text-gray-900">Represented by</h3>
+            <ul class="grid grid-cols-3 gap-4">
+              <li
+                v-for="partner in partners"
+                :key="partner.internalID"
+                class="flex items-center gap-3 border border-gray-200 p-3"
+              >
+                <img
+                  v-if="partner.profile?.icon?.url"
+                  :src="partner.profile.icon.url"
+                  :alt="partner.name ?? ''"
+                  class="h-10 w-10 shrink-0 object-contain"
+                />
+                <div class="min-w-0">
+                  <div class="truncate text-sm text-gray-900">{{ partner.name }}</div>
+                  <div v-if="partner.cities?.length" class="truncate text-xs text-gray-500">
+                    {{ partner.cities.filter(Boolean).join(', ') }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </section>
         </div>
       </Transition>
     </div>

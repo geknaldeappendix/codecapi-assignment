@@ -12,5 +12,23 @@ query Artwork($id: String!) {
     image {
       url(version: "large")
     }
+    artist {
+      highlights {
+        partnersConnection(first: 12, displayOnPartnerProfile: true, representedBy: true) {
+          edges {
+            node {
+              internalID
+              name
+              cities
+              profile {
+                icon {
+                  url(version: "square")
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
