@@ -7,11 +7,14 @@ const { data, loading, error } = useArtworks()
 
 <template>
   <section>
-    <p v-if="loading">Loading…</p>
-    <p v-else-if="error">Something went wrong.</p>
-    <ul v-else>
+    <p v-if="loading" class="text-gray-500">Loading…</p>
+    <p v-else-if="error" class="text-red-600">Something went wrong.</p>
+    <ul v-else class="space-y-2">
       <li v-for="artwork in data" :key="artwork.internalID">
-        <RouterLink :to="{ name: 'artwork', params: { slug: artwork.slug } }">
+        <RouterLink
+          :to="{ name: 'artwork', params: { slug: artwork.slug } }"
+          class="hover:underline"
+        >
           {{ artwork.title || 'Untitled' }} — {{ artwork.artistNames }}
         </RouterLink>
       </li>

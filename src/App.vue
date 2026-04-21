@@ -3,12 +3,15 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
-    <RouterLink to="/">
-      <h1>Artsy Browser</h1>
-    </RouterLink>
-  </header>
-  <main>
-    <RouterView />
-  </main>
+  <div class="mx-auto max-w-[1280px]">
+    <header class="border-b border-gray-200 px-6 py-4">
+      <RouterLink to="/" class="text-xl font-semibold">
+        Artsy Browser
+      </RouterLink>
+    </header>
+    <main class="px-6 py-6">
+      <RouterView />
+    </main>
+  </div>
 </template>
+ q  
