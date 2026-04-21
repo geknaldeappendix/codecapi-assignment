@@ -2,6 +2,13 @@ query Artwork($id: String!) {
   artwork(id: $id) {
     title
     artistNames
+    date
+    medium
+    saleMessage
+    dimensions {
+      cm
+    }
+    description(format: PLAIN)
     image {
       url(version: "large")
     }
