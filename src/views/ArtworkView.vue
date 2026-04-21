@@ -68,6 +68,7 @@ const partners = computed(() =>
 
 const LENS = 200
 const ZOOM = 2.5
+const canHover = window.matchMedia('(hover: hover)').matches
 
 const lens = ref({
   show: false,
@@ -81,6 +82,7 @@ const lens = ref({
 })
 
 function lensMove(event: MouseEvent) {
+  if (!canHover) return
   const img = event.currentTarget as HTMLImageElement
   const rect = img.getBoundingClientRect()
   if (!img.naturalWidth || !img.naturalHeight) return

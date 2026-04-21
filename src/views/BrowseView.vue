@@ -21,8 +21,10 @@ const hovered = ref<Artwork | null>(null)
 const cursor = ref({ x: 0, y: 0 })
 const centerY = ref(0)
 const listRef = ref<HTMLUListElement | null>(null)
+const canHover = window.matchMedia('(hover: hover)').matches
 
 function enter(artwork: Artwork, event: MouseEvent) {
+  if (!canHover) return
   hovered.value = artwork
   cursor.value = { x: event.clientX, y: event.clientY }
   const rect = listRef.value?.getBoundingClientRect()
