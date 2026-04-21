@@ -1,13 +1,22 @@
 <script setup lang="ts">
 import { toRef } from 'vue'
+import { useRouter } from 'vue-router'
 import { useArtwork } from '../composables/useArtwork'
 
 const props = defineProps<{ slug: string }>()
 const { data, loading, error } = useArtwork(toRef(props, 'slug'))
+const router = useRouter()
 </script>
 
 <template>
-  <section>
+  <section class="space-y-4">
+    <button
+      type="button"
+      class="text-sm text-gray-600 hover:underline"
+      @click="router.back()"
+    >
+      <- Back to browse
+    </button>
     <p v-if="loading" class="text-gray-500">Loading…</p>
     <p v-else-if="error" class="text-red-600">Something went wrong.</p>
     <p v-else-if="!data" class="text-gray-500">Artwork not found.</p>

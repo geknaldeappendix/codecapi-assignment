@@ -1,0 +1,18 @@
+query SearchArtworks($query: String!, $first: Int!) {
+  searchConnection(query: $query, first: $first, entities: [ARTWORK]) {
+    edges {
+      node {
+        __typename
+        ... on Artwork {
+          internalID
+          title
+          slug
+          artistNames
+          image {
+            url(version: "small")
+          }
+        }
+      }
+    }
+  }
+}
