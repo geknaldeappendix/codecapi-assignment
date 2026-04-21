@@ -140,7 +140,7 @@ function lensLeave() {
             v-for="w in windowItems"
             :key="w.slug"
             :to="{ name: 'artwork', params: { slug: w.slug } }"
-            :class="['carousel-item group absolute top-1/2 left-1/2 block', positionClasses[w.position]]"
+            :class="['carousel-item group absolute top-1/2 block', positionClasses[w.position]]"
           >
             <img
               v-if="w.src"
@@ -228,6 +228,7 @@ function lensLeave() {
 .carousel-item {
   translate: -50% -50%;
   transition:
+    left 500ms ease,
     transform 500ms ease,
     width 500ms ease,
     height 500ms ease,
@@ -235,6 +236,7 @@ function lensLeave() {
 }
 
 .pos-current {
+  left: 50%;
   width: 672px;
   height: 672px;
   opacity: 1;
@@ -250,11 +252,13 @@ function lensLeave() {
 }
 
 .pos-prev {
-  transform: translateX(-520px) perspective(800px) rotateY(-30deg);
+  left: 8%;
+  transform: perspective(800px) rotateY(-30deg);
 }
 
 .pos-next {
-  transform: translateX(520px) perspective(800px) rotateY(30deg);
+  left: 92%;
+  transform: perspective(800px) rotateY(30deg);
 }
 
 .text-next-enter-active,
@@ -295,19 +299,23 @@ function lensLeave() {
 }
 
 .carousel-next-enter-from {
-  transform: translateX(760px) perspective(800px) rotateY(30deg);
+  left: 110%;
+  transform: perspective(800px) rotateY(30deg);
 }
 
 .carousel-next-leave-to {
-  transform: translateX(-760px) perspective(800px) rotateY(-30deg);
+  left: -10%;
+  transform: perspective(800px) rotateY(-30deg);
 }
 
 .carousel-prev-enter-from {
-  transform: translateX(-760px) perspective(800px) rotateY(-30deg);
+  left: -10%;
+  transform: perspective(800px) rotateY(-30deg);
 }
 
 .carousel-prev-leave-to {
-  transform: translateX(760px) perspective(800px) rotateY(30deg);
+  left: 110%;
+  transform: perspective(800px) rotateY(30deg);
 }
 
 .carousel-next-leave-active,

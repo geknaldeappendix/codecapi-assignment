@@ -14,10 +14,13 @@ const props = defineProps<{
 const loaded = ref(false)
 watch(() => props.url, () => (loaded.value = false))
 
-const pos = computed(() => ({
-  left: Math.round((window.innerWidth + CONTAINER) / 2) - SIZE,
-  top: Math.round(props.centerY - SIZE / 2),
-}))
+const pos = computed(() => {
+  const contentWidth = Math.min(window.innerWidth, CONTAINER)
+  return {
+    left: Math.round((window.innerWidth + contentWidth) / 2) - SIZE,
+    top: Math.round(props.centerY - SIZE / 2),
+  }
+})
 
 const nearest = computed(() => {
   const { left, top } = pos.value
