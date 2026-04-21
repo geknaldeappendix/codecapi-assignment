@@ -18,13 +18,15 @@ watch(query, (value) => {
 })
 
 const hovered = ref<Artwork | null>(null)
-const anchor = ref({ x: 0, y: 0 })
 const cursor = ref({ x: 0, y: 0 })
+const centerY = ref(0)
+const listRef = ref<HTMLUListElement | null>(null)
 
 function enter(artwork: Artwork, event: MouseEvent) {
   hovered.value = artwork
-  anchor.value = { x: event.clientX, y: event.clientY }
   cursor.value = { x: event.clientX, y: event.clientY }
+  const rect = listRef.value?.getBoundingClientRect()
+  if (rect) centerY.value = rect.top + rect.height / 2
 }
 function move(event: MouseEvent) {
   cursor.value = { x: event.clientX, y: event.clientY }
@@ -40,7 +42,7 @@ function leave() {
     <StateMessage v-if="loading">Loading…</StateMessage>
     <StateMessage v-else-if="error" variant="error">Something went wrong.</StateMessage>
     <StateMessage v-else-if="!data.length">No artworks found.</StateMessage>
-    <ul v-else class="space-y-2">
+    <ul v-else ref="listRef" class="space-y-2">
       <li v-for="artwork in data" :key="artwork.internalID">
         <RouterLink
           :to="{ name: 'artwork', params: { slug: artwork.slug } }"
@@ -56,10 +58,9 @@ function leave() {
     <HoverPreview
       v-if="hovered?.image?.thumb"
       :url="hovered.image.thumb"
-      :anchor-x="anchor.x"
-      :anchor-y="anchor.y"
       :cursor-x="cursor.x"
       :cursor-y="cursor.y"
+      :center-y="centerY"
     />
   </section>
 </template>

@@ -1,32 +1,23 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 
-const SIZE = 200
-const OFFSET = 32
-const PADDING = 8
+const SIZE = 320
+const CONTAINER = 1280
 
 const props = defineProps<{
   url: string
-  anchorX: number
-  anchorY: number
   cursorX: number
   cursorY: number
+  centerY: number
 }>()
 
 const loaded = ref(false)
 watch(() => props.url, () => (loaded.value = false))
 
-const pos = computed(() => {
-  const left = Math.max(
-    PADDING,
-    Math.min(props.anchorX + OFFSET, window.innerWidth - SIZE - PADDING),
-  )
-  const top = Math.max(
-    PADDING,
-    Math.min(props.anchorY + OFFSET, window.innerHeight - SIZE - PADDING),
-  )
-  return { left, top }
-})
+const pos = computed(() => ({
+  left: Math.round((window.innerWidth + CONTAINER) / 2) - SIZE,
+  top: Math.round(props.centerY - SIZE / 2),
+}))
 
 const nearest = computed(() => {
   const { left, top } = pos.value
