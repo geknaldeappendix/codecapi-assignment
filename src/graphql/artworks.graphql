@@ -1,0 +1,15 @@
+query Artworks($first: Int!) {
+  artworksConnection(first: $first) {
+    edges {
+      node {
+        internalID
+        title
+        slug
+        artistNames
+        image {
+          url(version: "small")
+        }
+      }
+    }
+  }
+}
