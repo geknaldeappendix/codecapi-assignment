@@ -6,6 +6,7 @@ const CONTAINER = 1280
 
 const props = defineProps<{
   url: string
+  show: boolean
   cursorX: number
   cursorY: number
   centerY: number
@@ -34,7 +35,7 @@ const nearest = computed(() => {
 </script>
 
 <template>
-  <div class="pointer-events-none fixed inset-0 z-40">
+  <div v-show="show" class="pointer-events-none fixed inset-0 z-40">
     <svg class="absolute inset-0 h-full w-full">
       <line
         :x1="cursorX"

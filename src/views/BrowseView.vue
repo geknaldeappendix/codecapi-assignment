@@ -58,8 +58,8 @@ function leave() {
       </li>
     </ul>
     <HoverPreview
-      v-if="hovered?.image?.thumb"
-      :url="hovered.image.thumb"
+      :show="!!hovered?.image?.thumb"
+      :url="hovered?.image?.thumb ?? ''"
       :cursor-x="cursor.x"
       :cursor-y="cursor.y"
       :center-y="centerY"
