@@ -82,7 +82,7 @@ const partners = computed(() =>
           <RouterLink
             v-if="data.artistNames"
             :to="{ name: 'browse', query: { q: data.artistNames } }"
-            class="lowercase text-gray-600 hover:underline"
+            class="text-gray-600 hover:underline"
           >
             {{ data.artistNames }}
           </RouterLink>
