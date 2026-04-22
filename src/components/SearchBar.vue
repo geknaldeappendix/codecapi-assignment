@@ -16,6 +16,7 @@ watch(input, (value) => emitDebounced(value))
     <input
       v-model="input"
       type="text"
+      aria-label="Search artworks"
       placeholder="Search artworks…"
       class="w-full border border-gray-300 px-3 py-2 pr-14 text-sm focus:border-gray-500 focus:outline-none"
     />

@@ -117,7 +117,7 @@ function lensLeave() {
 <template>
   <section class="space-y-4">
     <RouterLink :to="backTo" class="text-sm text-gray-600 hover:underline">
-      <- Back to browse
+      <span aria-hidden="true">←</span> Back to browse
     </RouterLink>
     <StateMessage v-if="loading && !data">Loading…</StateMessage>
     <StateMessage v-else-if="error && !data" variant="error">Something went wrong.</StateMessage>
@@ -142,6 +142,8 @@ function lensLeave() {
             v-for="w in windowItems"
             :key="w.slug"
             :to="{ name: 'artwork', params: { slug: w.slug } }"
+            :tabindex="w.position === 0 ? 0 : -1"
+            :aria-hidden="w.position !== 0"
             :class="['carousel-item group absolute top-1/2 block', positionClasses[w.position]]"
           >
             <img
@@ -157,13 +159,13 @@ function lensLeave() {
               class="absolute top-full right-0 mt-2 text-xs text-gray-600 transition-opacity duration-500 group-hover:underline"
               :class="w.position === -1 ? 'opacity-100' : 'opacity-0'"
             >
-              <- previous
+              <span aria-hidden="true">←</span> previous
             </span>
             <span
               class="absolute top-full left-0 mt-2 text-xs text-gray-600 transition-opacity duration-500 group-hover:underline"
               :class="w.position === 1 ? 'opacity-100' : 'opacity-0'"
             >
-              next ->
+              next <span aria-hidden="true">→</span>
             </span>
           </RouterLink>
         </TransitionGroup>
