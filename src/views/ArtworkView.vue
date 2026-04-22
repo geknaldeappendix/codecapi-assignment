@@ -228,7 +228,6 @@ function lensLeave() {
 
 <style scoped>
 .carousel-item {
-  translate: -50% -50%;
   transition:
     left 500ms ease,
     transform 500ms ease,
@@ -243,6 +242,7 @@ function lensLeave() {
   height: 672px;
   opacity: 1;
   z-index: 10;
+  transform: translate(-50%, -50%);
 }
 
 .pos-prev,
@@ -255,12 +255,12 @@ function lensLeave() {
 
 .pos-prev {
   left: 8%;
-  transform: perspective(800px) rotateY(-30deg);
+  transform: translate(-50%, -50%) perspective(800px) rotateY(-30deg);
 }
 
 .pos-next {
   left: 92%;
-  transform: perspective(800px) rotateY(30deg);
+  transform: translate(-50%, -50%) perspective(800px) rotateY(30deg);
 }
 
 .text-next-enter-active,
@@ -302,22 +302,22 @@ function lensLeave() {
 
 .carousel-next-enter-from {
   left: 110%;
-  transform: perspective(800px) rotateY(30deg);
+  transform: translate(-50%, -50%) perspective(800px) rotateY(30deg);
 }
 
 .carousel-next-leave-to {
   left: -10%;
-  transform: perspective(800px) rotateY(-30deg);
+  transform: translate(-50%, -50%) perspective(800px) rotateY(-30deg);
 }
 
 .carousel-prev-enter-from {
   left: -10%;
-  transform: perspective(800px) rotateY(-30deg);
+  transform: translate(-50%, -50%) perspective(800px) rotateY(-30deg);
 }
 
 .carousel-prev-leave-to {
   left: 110%;
-  transform: perspective(800px) rotateY(30deg);
+  transform: translate(-50%, -50%) perspective(800px) rotateY(30deg);
 }
 
 .carousel-next-leave-active,
